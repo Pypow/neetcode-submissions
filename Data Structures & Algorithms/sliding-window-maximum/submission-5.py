@@ -1,0 +1,17 @@
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        # Monotonically Decreasing Queue
+        q = deque() # (idx, val)
+        res = []  
+
+        l = 0
+        for r in range(len(nums)):
+            while q and q[-1][1] < nums[r]:
+                q.pop()
+            q.append((r, nums[r]))
+            if l > q[0][0]:
+                q.popleft()
+            if (r - l + 1) == k:
+                res.append(q[0][1])
+                l += 1
+        return res
